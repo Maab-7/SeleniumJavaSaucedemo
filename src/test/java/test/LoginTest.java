@@ -62,8 +62,13 @@ public class LoginTest extends BaseTest {
 		Assert.assertEquals(checkoutTwoPage.getTitle(), "Checkout: Overview", "El titulo de la pagina Checkout: Overview no es el correcto se obtiene " + productPage.getTitle());
 		Assert.assertEquals(checkoutTwoPage.getItemName(), productName, "El nombre del item no es el correcto verificar si se agrego el item al carrito");
 		Assert.assertEquals(checkoutTwoPage.getItemPrice(), itemSelectedPrice, "El precio del item no es el correcto");
-		//Agregar assercion del precio Total = Item total + tax
-		
+		//Agregar asercion del item total + tac = Total
+		double subtotal = checkoutTwoPage.getItemTotalAmount();
+		double tax = checkoutTwoPage.getTaxAmount();
+		double total = checkoutTwoPage.getTotalAmount();
+		//En esta asercion se permite una tolerancia de 0.01 para evitar problemas de redondeo en los calculos.
+		Assert.assertEquals(total, subtotal + tax, 0.01,
+		        "Total incorrecto. Subtotal=" + subtotal + " Tax=" + tax + " Total=" + total);
 		
 		
 		checkoutTwoPage.clickOnFinish();

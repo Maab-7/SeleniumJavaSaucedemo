@@ -51,14 +51,6 @@
           <argLine>
         	-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar
     	  </argLine>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
-          <systemPropertyVariables>
-            <allure.results.directory>
-              ${project.build.directory}/allure-results
-            </allure.results.directory>
-          </systemPropertyVariables>
         </configuration>
       </plugin>
        <plugin>
@@ -68,6 +60,4 @@
         </plugin>
     </plugins>
   </build>
-  
-  
 </project>
