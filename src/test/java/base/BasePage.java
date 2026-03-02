@@ -31,10 +31,16 @@ public class BasePage {
         driver.findElement(locator).sendKeys(text);
     }
 
-    protected String getText(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        return driver.findElement(locator).getText();
+    public String getText(By locator) {
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(15));
+        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        return element.getText();
     }
+    
+//    protected String getText(By locator) {
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+//        return driver.findElement(locator).getText();
+//    }
     
     protected void dropdownSelected(By locator, String text) {
     	
