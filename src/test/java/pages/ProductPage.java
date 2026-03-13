@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,9 +22,25 @@ public class ProductPage extends BasePage {
 		return getText(productsTitle);
 	}
 	
-	public void ClickOnAddToCartButtonSelectedByName (String productName) {
+	/*public void ClickOnAddToCartButtonSelectedByName (String productName) {
 		By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
 		clickElement(addToCartButton);
+	}*/
+	
+	//Tarea: Mejorar el metodo ClickOnAddToCartButtonSelectedByName para esperar a que el boton sea clickeable y hacer scroll hasta el elemento antes de hacer click
+	public void ClickOnAddToCartButtonSelectedByName(String productName) {
+
+	    By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+	    WebElement element = wait.until(
+	        ExpectedConditions.elementToBeClickable(addToCartButton)
+	    );
+
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+
+	    element.click();
 	}
 	
 	/*public String getTextRemoveButtonSelected(String productName) {
