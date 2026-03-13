@@ -1,6 +1,10 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 import base.BasePage;
 
@@ -22,9 +26,21 @@ public class ProductPage extends BasePage {
 		clickElement(addToCartButton);
 	}
 	
-	public String getTextRemoveButtonSelected(String productName) {
+	/*public String getTextRemoveButtonSelected(String productName) {
 		By addToCartButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
 		return getText(addToCartButton);
+	}*/
+	
+	public String getTextRemoveButtonSelected(String productName) {
+
+	    By removeButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
+
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+	    WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(removeButton)
+	    );
+
+	    return element.getText();
 	}
 	
 	public void clickOnCartButton() {
