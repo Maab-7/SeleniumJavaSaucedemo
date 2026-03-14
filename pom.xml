@@ -51,6 +51,15 @@
           <argLine>
         	-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar
     	  </argLine>
+    	<!-- ✅ Esto hace que -Dheadless=true y -Dbrowser=chrome lleguen al código -->
+        <systemPropertyVariables>
+            <headless>${headless}</headless>
+            <browser>${browser}</browser>
+        </systemPropertyVariables>
+        <!-- ✅ Apunta al testng.xml si tienes uno -->
+        <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+        </suiteXmlFiles>  
         </configuration>
       </plugin>
        <plugin>

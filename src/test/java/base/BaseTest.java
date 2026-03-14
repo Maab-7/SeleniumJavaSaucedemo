@@ -15,24 +15,21 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUp() {
-
-    	 // Si no se pasa parámetro, usa chrome por defecto
+        // ✅ Si no se pasa -Dbrowser, usa chrome por defecto
         String browser = System.getProperty("browser", "chrome");
-
         DriverManager.initDriver(browser);
         DriverManager.getDriver().get("https://www.saucedemo.com/");
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-    	
+        // ✅ Captura screenshot automáticamente si el test falla
         if (result.getStatus() == ITestResult.FAILURE) {
             attachScreenshot();
         }
-        
         DriverManager.quitDriver();
     }
-    
+
     @Attachment(value = "Screenshot on failure", type = "image/png")
     public byte[] attachScreenshot() {
         return ((TakesScreenshot) DriverManager.getDriver())

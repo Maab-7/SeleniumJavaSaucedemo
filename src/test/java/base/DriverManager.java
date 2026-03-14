@@ -19,21 +19,28 @@ public class DriverManager {
     }
 
     public static void initDriver(String browser) {
-    	
-    	String headless = System.getProperty("headless");
+
+        // ✅ Si no se pasa el parámetro, asume "false" (funciona en Eclipse sin configurar nada)
+        String headlessProp = System.getProperty("headless", "false");
+
+        // ✅ Headless automático si no hay display disponible (Linux/Jenkins sin GUI)
+        boolean isHeadless = "true".equalsIgnoreCase(headlessProp)
+                          || System.getenv("DISPLAY") == null;
 
         switch (browser.toLowerCase()) {
 
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
-                
-                if ("true".equalsIgnoreCase(headless)) {
-					options.addArguments("--headless=new");
-					options.addArguments("--window-size=1920,1080");
-					options.addArguments("--no-sandbox");
-					options.addArguments("--disable-dev-shm-usage");
-				}
+
+                if (isHeadless) {
+                    options.addArguments("--headless=new");
+                    options.addArguments("--window-size=1920,1080");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--disable-gpu");
+                }
+
                 driver = new ChromeDriver(options);
                 break;
 
@@ -50,10 +57,9 @@ public class DriverManager {
             default:
                 throw new IllegalArgumentException("Browser no soportado");
         }
-        //Tamaño de ventana consistente en cualquier entorno.
+
         driver.manage().window().setSize(new Dimension(1920, 1080));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        //driver.manage().window().maximize();
     }
 
     public static void quitDriver() {
@@ -62,4 +68,3 @@ public class DriverManager {
         }
     }
 }
-

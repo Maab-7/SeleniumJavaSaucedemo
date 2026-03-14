@@ -26,7 +26,7 @@ public class LoginTest extends BaseTest {
 	}
 	
 	@Test
-	public void e2eTest() throws InterruptedException {	
+	public void e2eTest() {	
 		
 		LoginPage loginPage = new LoginPage();
 		ProductPage productPage = new ProductPage();
@@ -79,7 +79,6 @@ public class LoginTest extends BaseTest {
 		
 		attachScreenshot();
 		
-		Thread.sleep(6000);
 		
 		
 	}
