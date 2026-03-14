@@ -58,9 +58,12 @@ public class ProductPage extends BasePage {
 	}
 	
 	public void clickOnCartButton() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 	    wait.until(ExpectedConditions.elementToBeClickable(cartButton));
 	    clickElement(cartButton);
+
+	    // ✅ Espera a que la navegación al carrito se complete
+	    wait.until(ExpectedConditions.urlContains("cart"));
 	}
 	
 	public String getTextItemPrice(String productName) {

@@ -1,6 +1,9 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 import base.BasePage;
 
@@ -33,9 +36,11 @@ public class CheckoutPage extends BasePage {
 	}
 	
 	public void clickOnContinue() {
-		clickElement(continueButton);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.elementToBeClickable(continueButton));
+        clickElement(continueButton);
+
+        // ✅ Espera a que la navegación se complete
+        wait.until(ExpectedConditions.urlContains("checkout-step-two"));
 	}
-	
-
-
 }
