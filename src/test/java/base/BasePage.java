@@ -23,14 +23,16 @@ public class BasePage {
     }
 
     protected void clickElement(By locator) {
-WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+    	WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
         
         // ✅ JS click en headless, click normal en local
         String headless = System.getProperty("headless", "false");
         if ("true".equalsIgnoreCase(headless)) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+            System.out.println(">>> JS click ejecutado");
         } else {
             element.click();
+            System.out.println(">>> click normal ejecutado");
         }
     }
 
