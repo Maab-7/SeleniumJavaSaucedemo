@@ -29,10 +29,10 @@ public class BasePage {
         String headless = System.getProperty("headless", "false");
         if ("true".equalsIgnoreCase(headless)) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-            System.out.println(">>> JS click ejecutado");
+            //System.out.println(">>> JS click ejecutado");
         } else {
             element.click();
-            System.out.println(">>> click normal ejecutado");
+            //System.out.println(">>> click normal ejecutado");
         }
     }
 

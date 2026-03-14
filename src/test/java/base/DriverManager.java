@@ -30,7 +30,7 @@ public class DriverManager {
         switch (browser.toLowerCase()) {
 
             case "chrome":
-                //WebDriverManager.chromedriver().setup();
+                //Se limpia la caché de Chrome para evitar problemas con versiones anteriores
             	WebDriverManager.chromedriver().clearDriverCache().setup();
                 ChromeOptions options = new ChromeOptions();
 
