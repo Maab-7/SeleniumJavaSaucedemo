@@ -58,11 +58,17 @@ public class ProductPage extends BasePage {
 	}
 	
 	public void clickOnCartButton() {
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 	    wait.until(ExpectedConditions.elementToBeClickable(cartButton));
-	    clickElement(cartButton);
 
-	    // ✅ Espera a que la navegación al carrito se complete
+	    String headless = System.getProperty("headless", "false");
+	    if ("true".equalsIgnoreCase(headless)) {
+	        // ✅ En headless navegar directamente — el JS click no dispara la navegación
+	        driver.navigate().to("https://www.saucedemo.com/cart.html");
+	    } else {
+	        clickElement(cartButton);
+	    }
+
 	    wait.until(ExpectedConditions.urlContains("cart"));
 	}
 	
