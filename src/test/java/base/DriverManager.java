@@ -30,7 +30,8 @@ public class DriverManager {
         switch (browser.toLowerCase()) {
 
             case "chrome":
-                WebDriverManager.chromedriver().setup();
+                //WebDriverManager.chromedriver().setup();
+            	WebDriverManager.chromedriver().clearDriverCache().setup();
                 ChromeOptions options = new ChromeOptions();
 
                 if (isHeadless) {
