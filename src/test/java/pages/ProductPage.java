@@ -25,26 +25,25 @@ public class ProductPage extends BasePage {
 	//Mejora para mejorar la estabilidad del click, se espera a que el elemento sea visible y se hace scroll hasta el elemento antes de hacer click
 	public void ClickOnAddToCartButtonSelectedByName(String productName) {
 
-	    By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
-	    By removeButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
+		    By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		    WebElement element = wait.until(
+		        ExpectedConditions.elementToBeClickable(addToCartButton)
+		    );
 
-	    WebElement element = wait.until(
-	        ExpectedConditions.elementToBeClickable(addToCartButton)
-	    );
-
-	    // ✅ JS click — más confiable en modo headless
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-
-	    // ✅ Verifica que el click funcionó esperando el botón Remove
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(removeButton));
+		    // ✅ En headless usar JS click que es más confiable
+		    String headless = System.getProperty("headless", "false");
+		    if ("true".equalsIgnoreCase(headless)) {
+		        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+		    } else {
+		        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+		        element.click();
+		    }
+		    // ✅ Esperar confirmación de que el click funcionó
+		    By removeButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
+		    wait.until(ExpectedConditions.visibilityOfElementLocated(removeButton));
 	}
-	
-	/*public String getTextRemoveButtonSelected(String productName) {
-		By addToCartButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
-		return getText(addToCartButton);
-	}*/
 	
 	public String getTextRemoveButtonSelected(String productName) {
 
@@ -59,7 +58,9 @@ public class ProductPage extends BasePage {
 	}
 	
 	public void clickOnCartButton() {
-		clickElement(cartButton);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+	    wait.until(ExpectedConditions.elementToBeClickable(cartButton));
+	    clickElement(cartButton);
 	}
 	
 	public String getTextItemPrice(String productName) {

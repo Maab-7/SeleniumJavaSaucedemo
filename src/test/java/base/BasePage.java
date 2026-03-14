@@ -3,6 +3,7 @@ package base;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,8 +23,15 @@ public class BasePage {
     }
 
     protected void clickElement(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
-        driver.findElement(locator).click();
+WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        
+        // ✅ JS click en headless, click normal en local
+        String headless = System.getProperty("headless", "false");
+        if ("true".equalsIgnoreCase(headless)) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        } else {
+            element.click();
+        }
     }
 
     protected void enterText(By locator, String text) {
