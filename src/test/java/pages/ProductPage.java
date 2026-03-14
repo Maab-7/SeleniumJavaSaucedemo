@@ -22,32 +22,11 @@ public class ProductPage extends BasePage {
 		return getText(productsTitle);
 	}
 	
-	/*public void ClickOnAddToCartButtonSelectedByName (String productName) {
-		By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
-		clickElement(addToCartButton);
-	}*/
-	
-	//Tarea: Mejorar el metodo ClickOnAddToCartButtonSelectedByName para esperar a que el boton sea clickeable y hacer scroll hasta el elemento antes de hacer click
-	
-	/*public void ClickOnAddToCartButtonSelectedByName(String productName) {
-
-	    By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
-
-	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-	    WebElement element = wait.until(
-	        ExpectedConditions.elementToBeClickable(addToCartButton)
-	    );
-
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-
-	    element.click();
-	}*/
-	
 	//Mejora para mejorar la estabilidad del click, se espera a que el elemento sea visible y se hace scroll hasta el elemento antes de hacer click
 	public void ClickOnAddToCartButtonSelectedByName(String productName) {
 
 	    By addToCartButton = By.id("add-to-cart-" + productName.toLowerCase().replace(" ", "-"));
+	    By removeButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
 
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -55,18 +34,10 @@ public class ProductPage extends BasePage {
 	        ExpectedConditions.elementToBeClickable(addToCartButton)
 	    );
 
-	    // ✅ Solo hacer scroll si NO estamos en headless
-	    String headless = System.getProperty("headless", "false");
-	    if (!"true".equalsIgnoreCase(headless)) {
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-	    }
+	    // ✅ JS click — más confiable en modo headless
+	    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 
-	    // ✅ Esperar brevemente después del scroll antes de hacer click
-	    wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
-	    element.click();
-	    
-	    // ✅ Esperar a que el botón Remove sea visible antes de continuar
-	    By removeButton = By.id("remove-" + productName.toLowerCase().replace(" ", "-"));
+	    // ✅ Verifica que el click funcionó esperando el botón Remove
 	    wait.until(ExpectedConditions.visibilityOfElementLocated(removeButton));
 	}
 	
